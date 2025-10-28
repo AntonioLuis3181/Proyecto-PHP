@@ -22,9 +22,9 @@ if ($accion == 'insertar') {
             ':id_categoria' => $id_categoria,
             ':en_stock' => $en_stock
         ]);
-        $mensaje = "✅ Producto añadido correctamente.";
+        $mensaje = "Producto añadido correctamente.";
     } catch (PDOException $e) {
-        $mensaje = "❌ Error al insertar: " . $e->getMessage();
+        $mensaje = "Error al insertar: " . $e->getMessage();
     }
 }
 
@@ -35,7 +35,7 @@ if ($accion == 'buscar') {
     $stmt = $conexion->prepare("SELECT * FROM productos WHERE nombre_producto LIKE ?");
     $stmt->execute(["%$buscar_nombre%"]);
     $producto_buscado = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$producto_buscado) $mensaje = "⚠️ No se encontró ningún producto con ese nombre.";
+    if (!$producto_buscado) $mensaje = "No se encontró ningún producto con ese nombre.";
 }
 
 // --- MODIFICAR PRODUCTO ---
@@ -52,9 +52,9 @@ if ($accion == 'modificar' && $id_producto) {
             ':en_stock' => $en_stock,
             ':id_producto' => $id_producto
         ]);
-        $mensaje = "✅ Producto modificado correctamente.";
+        $mensaje = "Producto modificado correctamente.";
     } catch (PDOException $e) {
-        $mensaje = "❌ Error al modificar: " . $e->getMessage();
+        $mensaje = "Error al modificar: " . $e->getMessage();
     }
 }
 
@@ -63,9 +63,9 @@ if ($accion == 'borrar' && $id_producto) {
     try {
         $stmt = $conexion->prepare("DELETE FROM productos WHERE id_producto = ?");
         $stmt->execute([$id_producto]);
-        $mensaje = "🗑️ Producto eliminado correctamente.";
+        $mensaje = "Producto eliminado correctamente.";
     } catch (PDOException $e) {
-        $mensaje = "❌ Error al eliminar: " . $e->getMessage();
+        $mensaje = "Error al eliminar: " . $e->getMessage();
     }
 }
 
