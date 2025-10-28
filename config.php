@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
 $usuario = "root";
-$password = "";
-$base_de_datos = "nombre_base_datos";
+$password = ""; // o tu contraseña de XAMPP/MAMP/WAMP
+$base_de_datos = "nova_vibe";
 
 try {
     $conexion = new PDO("mysql:host=$host;dbname=$base_de_datos;charset=utf8", $usuario, $password);
