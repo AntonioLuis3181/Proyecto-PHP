@@ -3,31 +3,31 @@ CREATE DATABASE IF NOT EXISTS nova_vibe CHARACTER SET utf8mb4 COLLATE utf8mb4_ge
 
 USE nova_vibe;
 
-CREATE TABLE categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_categoria VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(255),
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    partes INT,
-    parte_de_arriba BOOLEAN DEFAULT 0
+CREATE TABLE category (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    date_of_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    parts INT,
+    upper_part BOOLEAN DEFAULT 0
 );
 
-CREATE TABLE productos (
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_producto VARCHAR(100) NOT NULL,
-    precio DECIMAL(10, 2) NOT NULL,
-    id_categoria INT,
-    en_stock BOOLEAN DEFAULT 1,
-    fecha_registro DATE DEFAULT(CURRENT_DATE),
-    FOREIGN KEY (id_categoria) REFERENCES categorias (id_categoria) ON DELETE SET NULL ON UPDATE CASCADE
+CREATE TABLE product (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    category_id INT,
+    stockk BOOLEAN DEFAULT 1,
+    date_of_registration DATE DEFAULT(CURRENT_DATE),
+    FOREIGN KEY (category_id) REFERENCES category (category_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
-CREATE TABLE ventas (
-    id_venta INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
-    cantidad_producto INT NOT NULL,
-    id_producto INT,
-    venta_online BOOLEAN DEFAULT 0,
-    descripcion VARCHAR(1000),
-    FOREIGN KEY (id_producto) REFERENCES productos (id_producto) ON DELETE SET NULL ON UPDATE CASCADE
+CREATE TABLE sale (
+    sale_id INT AUTO_INCREMENT PRIMARY KEY,
+    date_of_sale DATETIME DEFAULT CURRENT_TIMESTAMP,
+    product_quantity INT NOT NULL,
+    product_id INT,
+    online_sales BOOLEAN DEFAULT 0,
+    description VARCHAR(1000),
+    FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
