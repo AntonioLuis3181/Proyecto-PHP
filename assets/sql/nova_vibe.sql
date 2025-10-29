@@ -1,7 +1,7 @@
 -- Base de datos: tienda_ropa
 CREATE DATABASE IF NOT EXISTS nova_vibe CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-USE nova:vibe;
+USE nova_vibe;
 
 CREATE TABLE categorias (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
