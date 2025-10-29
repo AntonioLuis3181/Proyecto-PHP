@@ -1,18 +1,34 @@
--- Base de datos
-CREATE DATABASE novavibe
+-- Base de datos: tienda_ropa
+CREATE DATABASE IF NOT EXISTS nova_vibe CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-USE novavibe;
+USE nova_vibe;
 
--- Tablas
-CREATE TABLE categorias;
--- como arriba
-CREATE TABLE productos;
+-- Tabla: usuarios
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
 
-CREATE TABLE ventas;
+-- Tabla: productos
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10, 2) NOT NULL,
+    stock INT DEFAULT 0,
+    imagen VARCHAR(255)
+);
 
--- Datos de ejemplo (mínimo 10 registros por tabla)
-INSERT INTO categorias (nombre_categoria, descripcion, partes, parte_de_arriba) VALUES
-('Camisetas','Camisetas de algodón',1,1),
-('Pantalones','Pantalones vaqueros',2,0),
-...
-;
+-- Tabla: pedidos
+CREATE TABLE pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT DEFAULT 1,
+    total DECIMAL(10, 2) NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_producto) REFERENCES productos (id) ON DELETE CASCADE
+);
