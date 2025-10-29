@@ -1,7 +1,7 @@
 -- Base de datos
-CREATE DATABASE nova_vibe
+CREATE DATABASE novavibe
 
-USE nova_vibe;
+USE novavibe;
 
 -- Tablas
 CREATE TABLE categorias;
