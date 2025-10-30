@@ -1,33 +1,41 @@
--- Base de datos: tienda_ropa
 CREATE DATABASE IF NOT EXISTS nova_vibe CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 USE nova_vibe;
 
-CREATE TABLE categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_categoria VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(255),
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    partes INT,
-    parte_de_arriba BOOLEAN DEFAULT 0
+-- Category table
+CREATE TABLE category (
+    id_category INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    like_count INT,
+    seasonal_product_available BOOLEAN DEFAULT 0
 );
 
-CREATE TABLE productos (
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_producto VARCHAR(100) NOT NULL,
-    precio DECIMAL(10, 2) NOT NULL,
-    id_categoria INT,
-    en_stock BOOLEAN DEFAULT 1,
-    fecha_registro DATE DEFAULT(CURRENT_DATE),
-    FOREIGN KEY (id_categoria) REFERENCES categorias (id_categoria) ON DELETE SET NULL ON UPDATE CASCADE
+-- Product table
+CREATE TABLE product (
+    id_product INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    id_category INT,
+    in_stock BOOLEAN DEFAULT 1,
+    registration_date DATE DEFAULT(CURRENT_DATE),
+    FOREIGN KEY (id_category) REFERENCES category (id_category) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
-CREATE TABLE ventas (
-    id_venta INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_venta DATETIME DEFAULT CURRENT_TIMESTAMP,
-    cantidad_producto INT NOT NULL,
-    id_producto INT,
-    venta_online BOOLEAN DEFAULT 0,
-    descripcion VARCHAR(1000),
-    FOREIGN KEY (id_producto) REFERENCES productos (id_producto) ON DELETE SET NULL ON UPDATE CASCADE
+-- Season table
+CREATE TABLE season (
+    id_season INT AUTO_INCREMENT PRIMARY KEY,
+    season_name ENUM('Autumn', 'Winter', 'Spring') NOT NULL
+);
+
+-- Sale table
+CREATE TABLE sale (
+    id_sale INT AUTO_INCREMENT PRIMARY KEY,
+    sale_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    product_quantity INT NOT NULL,
+    id_product INT,
+    online_sale BOOLEAN DEFAULT 0,
+    address VARCHAR(255),
+    FOREIGN KEY (id_product) REFERENCES product (id_product) ON DELETE SET NULL ON UPDATE CASCADE
 );
