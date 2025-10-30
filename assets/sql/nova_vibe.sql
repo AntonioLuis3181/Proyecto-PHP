@@ -1,33 +1,41 @@
--- Base de datos: tienda_ropa
 CREATE DATABASE IF NOT EXISTS nova_vibe CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 USE nova_vibe;
 
+-- Category table
 CREATE TABLE category (
-    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    id_category INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL,
     description VARCHAR(255),
-    date_of_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
-    parts INT,
-    upper_part BOOLEAN DEFAULT 0
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    like_count INT,
+    seasonal_product_available BOOLEAN DEFAULT 0
 );
 
+-- Product table
 CREATE TABLE product (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    id_product INT AUTO_INCREMENT PRIMARY KEY,
     product_name VARCHAR(100) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
-    category_id INT,
-    stockk BOOLEAN DEFAULT 1,
-    date_of_registration DATE DEFAULT(CURRENT_DATE),
-    FOREIGN KEY (category_id) REFERENCES category (category_id) ON DELETE SET NULL ON UPDATE CASCADE
+    id_category INT,
+    in_stock BOOLEAN DEFAULT 1,
+    registration_date DATE DEFAULT(CURRENT_DATE),
+    FOREIGN KEY (id_category) REFERENCES category (id_category) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+-- Season table
+CREATE TABLE season (
+    id_season INT AUTO_INCREMENT PRIMARY KEY,
+    season_name ENUM('Autumn', 'Winter', 'Spring') NOT NULL
+);
+
+-- Sale table
 CREATE TABLE sale (
-    sale_id INT AUTO_INCREMENT PRIMARY KEY,
-    date_of_sale DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_sale INT AUTO_INCREMENT PRIMARY KEY,
+    sale_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     product_quantity INT NOT NULL,
-    product_id INT,
-    online_sales BOOLEAN DEFAULT 0,
-    description VARCHAR(1000),
-    FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE SET NULL ON UPDATE CASCADE
+    id_product INT,
+    online_sale BOOLEAN DEFAULT 0,
+    address VARCHAR(255),
+    FOREIGN KEY (id_product) REFERENCES product (id_product) ON DELETE SET NULL ON UPDATE CASCADE
 );
