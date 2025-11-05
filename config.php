@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $usuario = "root";
-$password = ""; // o tu contraseña de XAMPP/MAMP/WAMP
+$password = "nova-vibe"; // o tu contraseña de XAMPP/MAMP/WAMP
 $base_de_datos = "nova_vibe";
 
 try {
@@ -10,4 +10,3 @@ try {
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
 }
-?>
