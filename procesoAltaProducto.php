@@ -1,8 +1,6 @@
 <?php
 session_start();
 require_once("funcionesUtiles.php");
-comprobarSesionAdmin();
-
 require_once("funcionesBD.php");
 ?>
 

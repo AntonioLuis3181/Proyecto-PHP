@@ -10,14 +10,13 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <title>Tienda: Administrador</title>
+    <title>Tienda: Nova Vibe</title>
 </head>
 
 <body>
     <div class="container">
-        <h1>Acciones de administrador</h1>
+        <h1>Acciones de administrador Nova Vibe</h1>
         <ul class="list-group">
-            <li class="list-group-item"> <a href="altaCategoria.php">Alta de categoría</a> </li>
             <li class="list-group-item"> <a href="altaProducto.php">Alta de producto</a> </li>
         </ul>
     </div>
