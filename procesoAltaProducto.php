@@ -1,6 +1,8 @@
 <?php
-session_start();
-require_once("funcionesUtiles.php");
+//session_start();
+//require_once("funcionesUtiles.php");
+//comprobarSesionAdmin();
+
 require_once("funcionesBD.php");
 ?>
 
@@ -23,14 +25,13 @@ require_once("funcionesBD.php");
         <?php
 
         $nombre = $_POST["txtNombre"];
-        $descripcion = $_POST["txtDescripcion"];
-        $stock = $_POST["txtStock"];
+        $stock = isset($_POST['txtStock']) ? 1 : 0;
         $precio = $_POST["txtPrecio"];
         $categorias = $_POST["lstCategoria"];
 
         $conexion = obtenerConexion();
 
-        $sql = "INSERT INTO productos (Nombre, Descripcion, Stock, precio, CodCat) VALUES ('$nombre', '$descripcion', '$stock', '$precio', '$categorias');";
+        $sql = "INSERT INTO product (product_name, in_stock, price, id_category) VALUES ('$nombre', $stock, $precio, $categorias);";
         mysqli_query($conexion, $sql);
 
         if (mysqli_errno($conexion) != 0) {
@@ -44,7 +45,7 @@ require_once("funcionesBD.php");
                 echo "<p>Se ha producido un error numero $numerror que corresponde a: $descrerror</p>";
             }
         } else {  // Inserción correcta del producto, ahora procesar la imagen
-
+/*
             // Revisamos errores en la subida del fichero de la imagen
             if ($_FILES['imagen']['error'] != UPLOAD_ERR_OK) {
                 switch ($_FILES['imagen']['error']) {
@@ -116,7 +117,7 @@ require_once("funcionesBD.php");
                     break;
             }
             imagedestroy($image);
-
+*/
 
             // Salida si todo ha ido bien
             echo "<p>Ha añadido un nuevo producto.</p>";

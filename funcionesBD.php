@@ -3,8 +3,8 @@
 function obtenerConexion()
 {
 	// Establecer conexión y opciones de mysql
-	mysqli_report(MYSQLI_REPORT_OFF); // Errores mysql sin excepciones
-	$conexion = new mysqli("db", "root", "", "nova_vibe");
+	// mysqli_report(MYSQLI_REPORT_OFF); // Errores mysql sin excepciones
+	$conexion = new mysqli("db", "nombreTest", "test", "nova_vibe");
 	mysqli_set_charset($conexion, 'utf8');
 
 	return $conexion;
@@ -164,3 +164,54 @@ Devuelve:
 3 Si ha dejado algún campo vacio
 4 otro error
 */
+function comprobarUsuario(
+	$nombreTabla,
+	$nombreColumna,
+	$nombreClave,
+	$email,
+	$password
+) {
+	global $conexion;
+	if (($email == "") || ($password == "")) {
+		$devuelve = 3;
+	} else {
+		/* Evitar inyecciones SQL usando sentencias preparadas*/
+		$sentencia = $conexion->stmt_init();
+		$cadenaSql = "SELECT COUNT(*) FROM " . $nombreTabla .
+			" WHERE " . $nombreColumna . "=? AND " . $nombreClave . "=?";
+		$sentencia->prepare($cadenaSql);
+		$sentencia->bind_param("ss", $email, $password);
+		$sentencia->execute();
+		/*usando el método bind_result*/
+		$sentencia->bind_result($num_filas);
+		$sentencia->fetch();
+		if (!$sentencia) {
+			$devuelve = 4;
+		} else {
+			if ($num_filas > 0) {
+				$devuelve = 0;
+			} else {
+				$sentencia->close();
+				unset($sentencia);
+				$sentencia = $conexion->stmt_init();
+				$consulta = "SELECT COUNT(*) AS cuenta FROM " . $nombreTabla;
+				$consulta .= "   WHERE " . $nombreColumna . "=?";
+				$sentencia->prepare($consulta);
+				$sentencia->bind_param("s", $email);
+				$sentencia->execute();
+				/*en vez de bind_result uso ahora el método get_result */
+				$result = $sentencia->get_result();
+				$fila = $result->fetch_array();
+				$num_filas = $fila["cuenta"];
+				if (!$result) {
+					$devuelve = 4;
+				} elseif ($num_filas > 0) {
+					$devuelve = 1;
+				} else {
+					$devuelve = 2;
+				}
+			}
+		}
+	}
+	return $devuelve;
+}

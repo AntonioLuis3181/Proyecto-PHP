@@ -1,6 +1,8 @@
 <?php
-session_start();
-require_once("funcionesUtiles.php");
+// session_start();
+// require_once("funcionesUtiles.php");
+// comprobarSesionAdmin();
+
 require_once("funcionesBD.php");
 ?>
 
@@ -24,12 +26,8 @@ require_once("funcionesBD.php");
                 <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Introduzca el nombre del producto" maxlength="45" size="50" />
             </div>
             <div class="col-md-6 mb-3">
-                <label for="txtDescripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="txtDescripcion" name="txtDescripcion" maxlength="90" rows="4" placeholder="Introduzca una descripción"></textarea>
-            </div>
-            <div class="col-md-6 mb-3">
+                <input type="checkbox" id="txtStock" name="txtStock"/>
                 <label for="txtStock" class="form-label">Stock</label>
-                <input type="number" class="form-control" id="txtStock" name="txtStock" placeholder="Introduzca el stock del producto" min="0" maxlength="11" />
             </div>
             <div class="col-md-6 mb-3">
                 <label for="txtPrecio" class="form-label">Precio</label>
@@ -41,7 +39,7 @@ require_once("funcionesBD.php");
                     <?php
                     $conexion = obtenerConexion();
 
-                    $array_opciones = obtenerArrayOpciones('categoria', 'CodCat', 'Nombre');
+                    $array_opciones = obtenerArrayOpciones('category', 'id_category', 'category_name');
 
                     foreach ($array_opciones as $indice => $valor) {
                         echo "<option value='" . $indice . "'>" . $valor . "</option>";
@@ -49,10 +47,10 @@ require_once("funcionesBD.php");
                     ?>
                 </select>
             </div>
-            <div class="col-md-6 mb-3">
+           <!-- <div class="col-md-6 mb-3">
                 <label for="imagen" class="form-label">Subir imagen del producto</label>
                 <input type="file" class="form-control" id="imagen" name="imagen" />
-            </div>
+            </div> -->
             <button type="submit" class="btn btn-primary">Aceptar</button>
         </form>
     </div>
