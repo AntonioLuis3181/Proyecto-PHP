@@ -4,7 +4,7 @@ function obtenerConexion()
 {
 	// Establecer conexión y opciones de mysql
 	mysqli_report(MYSQLI_REPORT_OFF); // Errores mysql sin excepciones
-	$conexion = new mysqli("db", "root", "nova_vibe", "nova_vibe");
+	$conexion = new mysqli("db", "root", "test", "nova_vibe");
 	mysqli_set_charset($conexion, 'utf8');
 
 	return $conexion;
@@ -171,7 +171,6 @@ function comprobarUsuario(
 	$email,
 	$password
 ) {
-	global $conexion;
 	if (($email == "") || ($password == "")) {
 		$devuelve = 3;
 	} else {
