@@ -8,9 +8,9 @@
 - Host: localhost
 - Base de datos: nova_vibe
 - Usuario: root
-- Password: nova-vibe
+- Password: test
 
 ## Notas
-- La base de datos incluye las tablas: categorias, productos, ventas.
-- Se recomienda usar XAMPP/LAMP/WAMP para ejecutar la aplicación localmente.
+- La base de datos incluye las tablas: categorias, temporada, productos, ventas.
 - Los formularios y tablas están implementados con Bootstrap.
+- La tabla Ventas la realizó Antonio Luis Vela Garcia
