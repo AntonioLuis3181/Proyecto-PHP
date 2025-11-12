@@ -3,7 +3,7 @@
 // require_once("funcionesUtiles.php");
 // comprobarSesionAdmin();
 
-require_once("funcionesBD.php");
+require_once("config.php");
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@ require_once("funcionesBD.php");
                 <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Introduzca el nombre del producto" maxlength="45" size="50" />
             </div>
             <div class="col-md-6 mb-3">
-                <input type="checkbox" id="txtStock" name="txtStock"/>
+                <input type="checkbox" id="txtStock" name="txtStock" />
                 <label for="txtStock" class="form-label">Stock</label>
             </div>
             <div class="col-md-6 mb-3">
@@ -47,7 +47,7 @@ require_once("funcionesBD.php");
                     ?>
                 </select>
             </div>
-           <!-- <div class="col-md-6 mb-3">
+            <!-- <div class="col-md-6 mb-3">
                 <label for="imagen" class="form-label">Subir imagen del producto</label>
                 <input type="file" class="form-control" id="imagen" name="imagen" />
             </div> -->

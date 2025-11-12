@@ -41,10 +41,9 @@ require_once("config.php");
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="sale.php">Gestion de Ventas</a></li>
-            </ul>
-            <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="listadoVentas.php">Listado de Ventas</a></li>
             </ul>
+
           </li>
         </ul>
       </div>
