@@ -1,0 +1,7 @@
+Pass Acount - d84YtSuEfn1
+Username - if0_40398749
+
+dbname - if0_40398749_nova_vibe
+username - 	if0_40398749
+password - 	(Your vPanel Password)
+host name - sql100.infinityfree.com

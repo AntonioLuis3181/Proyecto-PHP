@@ -1,12 +1,14 @@
 <?php
-$host = "db";
-$usuario = "nombreTest";
-$password = "test"; // o tu contraseña de XAMPP/MAMP/WAMP
-$base_de_datos = "nova_vibe";
+function obtenerConexion()
+{
+    // Establecer conexión y opciones de mysql
+    // Errores mysql sin excepciones
+    mysqli_report(MYSQLI_REPORT_OFF);
 
-try {
-    $conexion = new PDO("mysql:host=$host;dbname=$base_de_datos;charset=utf8", $usuario, $password);
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+    // Importante, ajustar los siguientes parámetros
+    $conexion = new mysqli("db", "root", "test", "nova_vibe", "3306");
+    // $conexion = mysqli_connect('db', 'root', 'test', "nova_vibe","3306");
+    mysqli_set_charset($conexion, 'utf8');
+
+    return $conexion;
 }

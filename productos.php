@@ -12,7 +12,7 @@ $en_stock = isset($_POST['en_stock']) ? 1 : 0;
 
 // --- Mostrar PRODUCTO ---
 
-$sql_listado="SELECT p.*,c.category_name FROM product p, category c WHERE p.id_category=c.id_category";
+$sql_listado = "SELECT p.*,c.category_name FROM product p, category c WHERE p.id_category=c.id_category";
 
 // --- INSERTAR PRODUCTO ---
 if ($accion == 'insertar') {
@@ -34,8 +34,8 @@ if ($accion == 'insertar') {
 
 //--- MOSTRAR CATEGORIAS ---
 
-$sql_categorias="SELECT * FROM category";
-$categorias =$conexion->query($sql_categorias);
+$sql_categorias = "SELECT * FROM category";
+$categorias = $conexion->query($sql_categorias);
 
 // --- BUSCAR PRODUCTO POR NOMBRE ---
 $producto_buscado = null;
@@ -44,7 +44,7 @@ if ($accion == 'buscar') {
     $stmt = $conexion->prepare("SELECT p.*, c.category_name FROM product p, category c WHERE p.product_name LIKE ? and p.id_category=c.id_category");
     $stmt->execute(["%$buscar_nombre%"]);
     $producto_buscado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
     if (!$producto_buscado) $mensaje = "No se encontró ningún producto con ese nombre.";
 }
 
@@ -97,31 +97,31 @@ if ($accion == 'borrar' && $id_producto) {
                     <tbody>
                         <?php
 
-                            $statement =$conexion->query($sql_listado);
+                        $statement = $conexion->query($sql_listado);
 
-                            foreach($statement as $fila){
-                                $mensaje ="";
-                                $mensaje .= "<tr><td>" . $fila['id_product'] . "</td>";
-                                $mensaje .= "<td>" . $fila['product_name'] . "</td>";
-                                $mensaje .= "<td>" . $fila['price'] . " €</td>";
-                                $mensaje .= "<td>" . $fila['category_name'] . "</td>";
-                                $mensaje .= "<td>" . ($fila['in_stock'] ==0? 'No' : 'Si'). "</td>";
-                                $mensaje .= "<td>" . $fila['registration_date'] . "</td>";
+                        foreach ($statement as $fila) {
+                            $mensaje = "";
+                            $mensaje .= "<tr><td>" . $fila['id_product'] . "</td>";
+                            $mensaje .= "<td>" . $fila['product_name'] . "</td>";
+                            $mensaje .= "<td>" . $fila['price'] . " €</td>";
+                            $mensaje .= "<td>" . $fila['category_name'] . "</td>";
+                            $mensaje .= "<td>" . ($fila['in_stock'] == 0 ? 'No' : 'Si') . "</td>";
+                            $mensaje .= "<td>" . $fila['registration_date'] . "</td>";
 
-                                $mensaje .= "<td><form class='d-inline me-1' action='productos.php' method='post'>";
-                                $mensaje .= "<input type='hidden' name='producto' value='" . htmlspecialchars(json_encode($fila),ENT_QUOTES) . "' />";
-                                $mensaje .= "<input type='hidden' name='accion' value='editar' />";
-                                $mensaje .= "<button name='Editar' class='btn btn-primary'><i class='bi bi-pencil-square'></i></button></form>";
+                            $mensaje .= "<td><form class='d-inline me-1' action='productos.php' method='post'>";
+                            $mensaje .= "<input type='hidden' name='producto' value='" . htmlspecialchars(json_encode($fila), ENT_QUOTES) . "' />";
+                            $mensaje .= "<input type='hidden' name='accion' value='editar' />";
+                            $mensaje .= "<button name='Editar' class='btn btn-primary'><i class='bi bi-pencil-square'></i></button></form>";
 
-                                $mensaje .= "<form class='d-inline' action='productos.php' method='post'>";
-                                $mensaje .= "<input type='hidden' name='id_producto' value='" . $fila['id_product']  . "' />";
-                                $mensaje .= "<input type='hidden' name='accion' value='borrar' />";
-                                $mensaje .= "<button name='borrar' class='btn btn-danger'><i class='bi bi-trash'></i></button></form>";
+                            $mensaje .= "<form class='d-inline' action='productos.php' method='post'>";
+                            $mensaje .= "<input type='hidden' name='id_producto' value='" . $fila['id_product']  . "' />";
+                            $mensaje .= "<input type='hidden' name='accion' value='borrar' />";
+                            $mensaje .= "<button name='borrar' class='btn btn-danger'><i class='bi bi-trash'></i></button></form>";
 
-                                $mensaje .= "</td></tr>";
+                            $mensaje .= "</td></tr>";
 
-                                echo $mensaje;
-                            }
+                            echo $mensaje;
+                        }
 
                         ?>
                     </tbody>
@@ -186,28 +186,28 @@ if ($accion == 'borrar' && $id_producto) {
                     </div>
                 </form>
 
-                <?php if($producto_buscado):?>
-                <table class='table table-striped'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NOMBRE</th>
-                            <th>PRECIO</th>
-                            <th>CATEGORIA</th>
-                            <th>EN STOCK</th>
-                            <th>F.REGISTRO</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+                <?php if ($producto_buscado): ?>
+                    <table class='table table-striped'>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NOMBRE</th>
+                                <th>PRECIO</th>
+                                <th>CATEGORIA</th>
+                                <th>EN STOCK</th>
+                                <th>F.REGISTRO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
 
-                            foreach($producto_buscado as $fila){
-                                $mensaje ="";
+                            foreach ($producto_buscado as $fila) {
+                                $mensaje = "";
                                 $mensaje .= "<tr><td>" . $fila['id_product'] . "</td>";
                                 $mensaje .= "<td>" . $fila['product_name'] . "</td>";
                                 $mensaje .= "<td>" . $fila['price'] . " €</td>";
                                 $mensaje .= "<td>" . $fila['category_name'] . "</td>";
-                                $mensaje .= "<td>" . ($fila['in_stock'] ==0? 'No' : 'Si'). "</td>";
+                                $mensaje .= "<td>" . ($fila['in_stock'] == 0 ? 'No' : 'Si') . "</td>";
                                 $mensaje .= "<td>" . $fila['registration_date'] . "</td>";
 
                                 $mensaje .= "</td></tr>";
@@ -215,16 +215,16 @@ if ($accion == 'borrar' && $id_producto) {
                                 echo $mensaje;
                             }
 
-                        ?>
-                    </tbody>
-                </table>
-                <?php endif;?>
+                            ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
 </body>
 
 </html>
