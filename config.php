@@ -2,13 +2,24 @@
 function obtenerConexion()
 {
     // Establecer conexión y opciones de mysql
-    // Errores mysql sin excepciones
     mysqli_report(MYSQLI_REPORT_OFF);
 
-    // Importante, ajustar los siguientes parámetros
-    $conexion = new mysqli("db", "root", "test", "nova_vibe", "8080");
-    // $conexion = mysqli_connect('db', 'root', 'test', "nova_vibe","3306");
-    mysqli_set_charset($conexion, 'utf8');
+    // Valores por defecto - puedes sobrescribirlos con variables de entorno
+    $host = getenv('DB_HOST') ?: 'db';  // 'db' para Docker, '127.0.0.1' para conexión local
+    $user = getenv('DB_USER') ?: 'root';
+    $pass = getenv('DB_PASS') ?: 'test';
+    $dbname = getenv('DB_NAME') ?: 'nova_vibe';
+    $port = getenv('DB_PORT') ?: 3306;
 
+    // Crear conexión
+    $conexion = new mysqli($host, $user, $pass, $dbname, $port);
+
+    // Si falla la conexión, registrar el error y devolver null
+    if ($conexion->connect_errno) {
+        error_log('Error de conexión MySQL: (' . $conexion->connect_errno . ") " . $conexion->connect_error);
+        return null;
+    }
+
+    $conexion->set_charset('utf8');
     return $conexion;
 }

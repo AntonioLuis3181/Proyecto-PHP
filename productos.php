@@ -1,6 +1,12 @@
 <?php
 require_once "config.php";
 
+// Obtener conexión
+$conexion = obtenerConexion();
+if (!$conexion) {
+    die("Error: No se pudo conectar a la base de datos.");
+}
+
 // --- VARIABLES ---
 $mensaje = "";
 $accion = $_POST['accion'] ?? '';
@@ -11,51 +17,70 @@ $id_categoria = $_POST['id_categoria'] ?? '';
 $en_stock = isset($_POST['en_stock']) ? 1 : 0;
 
 // --- Mostrar PRODUCTO ---
-
 $sql_listado = "SELECT p.*,c.category_name FROM product p, category c WHERE p.id_category=c.id_category";
 
 // --- INSERTAR PRODUCTO ---
 if ($accion == 'insertar') {
-    try {
-        $sql = "INSERT INTO product (product_name, price, id_category, in_stock)
-                VALUES (:nombre_producto, :precio, :id_categoria, :en_stock)";
-        $stmt = $conexion->prepare($sql);
-        $stmt->execute([
-            ':nombre_producto' => $nombre_producto,
-            ':precio' => $precio,
-            ':id_categoria' => $id_categoria,
-            ':en_stock' => $en_stock
-        ]);
-        $mensaje = "Producto añadido correctamente.";
-    } catch (PDOException $e) {
-        $mensaje = "Error al insertar: " . $e->getMessage();
+    $sql = "INSERT INTO product (product_name, price, id_category, in_stock)
+            VALUES (?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param('ssii', $nombre_producto, $precio, $id_categoria, $en_stock);
+        if ($stmt->execute()) {
+            $mensaje = "Producto añadido correctamente.";
+        } else {
+            $mensaje = "Error al insertar: " . $stmt->error;
+        }
+        $stmt->close();
     }
 }
 
 //--- MOSTRAR CATEGORIAS ---
-
 $sql_categorias = "SELECT * FROM category";
-$categorias = $conexion->query($sql_categorias);
+$resultado_categorias = $conexion->query($sql_categorias);
+$categorias = [];
+if ($resultado_categorias) {
+    while ($cat = $resultado_categorias->fetch_assoc()) {
+        $categorias[] = $cat;
+    }
+}
 
 // --- BUSCAR PRODUCTO POR NOMBRE ---
 $producto_buscado = null;
 if ($accion == 'buscar') {
     $buscar_nombre = $_POST['buscar_nombre'] ?? '';
-    $stmt = $conexion->prepare("SELECT p.*, c.category_name FROM product p, category c WHERE p.product_name LIKE ? and p.id_category=c.id_category");
-    $stmt->execute(["%$buscar_nombre%"]);
-    $producto_buscado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if (!$producto_buscado) $mensaje = "No se encontró ningún producto con ese nombre.";
+    $buscar_nombre = "%" . $buscar_nombre . "%";
+    $sql_buscar = "SELECT p.*, c.category_name FROM product p, category c WHERE p.product_name LIKE ? and p.id_category=c.id_category";
+    $stmt = $conexion->prepare($sql_buscar);
+    if ($stmt) {
+        $stmt->bind_param('s', $buscar_nombre);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $producto_buscado = [];
+        while ($row = $resultado->fetch_assoc()) {
+            $producto_buscado[] = $row;
+        }
+        $stmt->close();
+        
+        if (empty($producto_buscado)) {
+            $mensaje = "No se encontró ningún producto con ese nombre.";
+            $producto_buscado = null;
+        }
+    }
 }
 
 // --- BORRAR PRODUCTO ---
 if ($accion == 'borrar' && $id_producto) {
-    try {
-        $stmt = $conexion->prepare("DELETE FROM product WHERE id_product = ?");
-        $stmt->execute([$id_producto]);
-        $mensaje = "Producto eliminado correctamente.";
-    } catch (PDOException $e) {
-        $mensaje = "Error al eliminar: " . $e->getMessage();
+    $sql_delete = "DELETE FROM product WHERE id_product = ?";
+    $stmt = $conexion->prepare($sql_delete);
+    if ($stmt) {
+        $stmt->bind_param('i', $id_producto);
+        if ($stmt->execute()) {
+            $mensaje = "Producto eliminado correctamente.";
+        } else {
+            $mensaje = "Error al eliminar: " . $stmt->error;
+        }
+        $stmt->close();
     }
 }
 ?>
@@ -99,28 +124,31 @@ if ($accion == 'borrar' && $id_producto) {
 
                         $statement = $conexion->query($sql_listado);
 
-                        foreach ($statement as $fila) {
-                            $mensaje = "";
-                            $mensaje .= "<tr><td>" . $fila['id_product'] . "</td>";
-                            $mensaje .= "<td>" . $fila['product_name'] . "</td>";
-                            $mensaje .= "<td>" . $fila['price'] . " €</td>";
-                            $mensaje .= "<td>" . $fila['category_name'] . "</td>";
-                            $mensaje .= "<td>" . ($fila['in_stock'] == 0 ? 'No' : 'Si') . "</td>";
-                            $mensaje .= "<td>" . $fila['registration_date'] . "</td>";
+                        if ($statement) {
+                            while ($fila = $statement->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($fila['id_product']) . "</td>";
+                                echo "<td>" . htmlspecialchars($fila['product_name']) . "</td>";
+                                echo "<td>" . htmlspecialchars($fila['price']) . " €</td>";
+                                echo "<td>" . htmlspecialchars($fila['category_name']) . "</td>";
+                                echo "<td>" . ($fila['in_stock'] == 0 ? 'No' : 'Sí') . "</td>";
+                                echo "<td>" . htmlspecialchars($fila['registration_date']) . "</td>";
 
-                            $mensaje .= "<td><form class='d-inline me-1' action='productos.php' method='post'>";
-                            $mensaje .= "<input type='hidden' name='producto' value='" . htmlspecialchars(json_encode($fila), ENT_QUOTES) . "' />";
-                            $mensaje .= "<input type='hidden' name='accion' value='editar' />";
-                            $mensaje .= "<button name='Editar' class='btn btn-primary'><i class='bi bi-pencil-square'></i></button></form>";
+                                echo "<td>";
+                                echo "<form class='d-inline me-1' action='productos.php' method='post'>";
+                                echo "<input type='hidden' name='id_producto' value='" . htmlspecialchars($fila['id_product']) . "' />";
+                                echo "<input type='hidden' name='accion' value='editar' />";
+                                echo "<button type='submit' class='btn btn-primary'><i class='bi bi-pencil-square'></i></button>";
+                                echo "</form>";
 
-                            $mensaje .= "<form class='d-inline' action='productos.php' method='post'>";
-                            $mensaje .= "<input type='hidden' name='id_producto' value='" . $fila['id_product']  . "' />";
-                            $mensaje .= "<input type='hidden' name='accion' value='borrar' />";
-                            $mensaje .= "<button name='borrar' class='btn btn-danger'><i class='bi bi-trash'></i></button></form>";
-
-                            $mensaje .= "</td></tr>";
-
-                            echo $mensaje;
+                                echo "<form class='d-inline' action='productos.php' method='post'>";
+                                echo "<input type='hidden' name='id_producto' value='" . htmlspecialchars($fila['id_product']) . "' />";
+                                echo "<input type='hidden' name='accion' value='borrar' />";
+                                echo "<button type='submit' class='btn btn-danger' onclick=\"return confirm('¿Estás seguro?');\"><i class='bi bi-trash'></i></button>";
+                                echo "</form>";
+                                echo "</td>";
+                                echo "</tr>";
+                            }
                         }
 
                         ?>
@@ -133,27 +161,27 @@ if ($accion == 'borrar' && $id_producto) {
             <div class="card-header bg-primary text-white">Agregar / Modificar Producto</div>
             <div class="card-body">
                 <form method="post">
-                    <input type="hidden" name="id_producto" value="<?= $producto_buscado['id_product'] ?? '' ?>">
+                    <input type="hidden" name="id_producto" value="<?= isset($producto_buscado) && is_array($producto_buscado) && count($producto_buscado) > 0 ? htmlspecialchars($producto_buscado[0]['id_product']) : '' ?>">
 
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label class="form-label">Nombre</label>
                             <input type="text" class="form-control" name="nombre_producto"
-                                value="<?= $producto_buscado['product_name'] ?? '' ?>" required>
+                                value="<?= isset($producto_buscado) && is_array($producto_buscado) && count($producto_buscado) > 0 ? htmlspecialchars($producto_buscado[0]['product_name']) : '' ?>" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Precio (€)</label>
                             <input type="number" step="0.01" class="form-control" name="precio"
-                                value="<?= $producto_buscado['price'] ?? '' ?>" required>
+                                value="<?= isset($producto_buscado) && is_array($producto_buscado) && count($producto_buscado) > 0 ? htmlspecialchars($producto_buscado[0]['price']) : '' ?>" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Categoría</label>
                             <select class="form-select" name="id_categoria" required>
                                 <option value="" disabled="disabled">Seleccionar</option>
                                 <?php foreach ($categorias as $cat): ?>
-                                    <option value="<?= $cat['id_category'] ?>"
-                                        <?= (isset($producto_buscado['id_category']) && $producto_buscado['id_category'] == $cat['id_category']) ? 'selected' : '' ?>>
-                                        <?= $cat['category_name'] ?>
+                                    <option value="<?= htmlspecialchars($cat['id_category']) ?>"
+                                        <?= (isset($producto_buscado) && is_array($producto_buscado) && count($producto_buscado) > 0 && $producto_buscado[0]['id_category'] == $cat['id_category']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($cat['category_name']) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -161,15 +189,15 @@ if ($accion == 'borrar' && $id_producto) {
                         <div class="col-md-2 d-flex align-items-center">
                             <div class="form-check mt-3">
                                 <input class="form-check-input" type="checkbox" name="en_stock"
-                                    <?= (!empty($producto_buscado['in_stock'])) ? 'checked' : '' ?>>
+                                    <?= (isset($producto_buscado) && is_array($producto_buscado) && count($producto_buscado) > 0 && !empty($producto_buscado[0]['in_stock'])) ? 'checked' : '' ?>>
                                 <label class="form-check-label">En stock</label>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" name="accion" value="<?= $producto_buscado ? 'modificar' : 'insertar' ?>"
-                        class="btn btn-success">
-                        <?= $producto_buscado ? 'Guardar Cambios' : 'Añadir Producto' ?>
+                    <input type="hidden" name="accion" value="<?= isset($producto_buscado) && is_array($producto_buscado) && count($producto_buscado) > 0 ? 'modificar' : 'insertar' ?>" />
+                    <button type="submit" class="btn btn-success">
+                        <?= (isset($producto_buscado) && is_array($producto_buscado) && count($producto_buscado) > 0) ? 'Guardar Cambios' : 'Añadir Producto' ?>
                     </button>
                 </form>
             </div>
@@ -182,12 +210,13 @@ if ($accion == 'borrar' && $id_producto) {
                 <form method="post">
                     <div class="input-group">
                         <input type="text" class="form-control" name="buscar_nombre" placeholder="Nombre del producto" required>
-                        <button type="submit" name="accion" value="buscar" class="btn btn-dark">Buscar</button>
+                        <input type="hidden" name="accion" value="buscar" />
+                        <button type="submit" class="btn btn-dark">Buscar</button>
                     </div>
                 </form>
 
                 <?php if ($producto_buscado): ?>
-                    <table class='table table-striped'>
+                    <table class='table table-striped mt-3'>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -202,17 +231,14 @@ if ($accion == 'borrar' && $id_producto) {
                             <?php
 
                             foreach ($producto_buscado as $fila) {
-                                $mensaje = "";
-                                $mensaje .= "<tr><td>" . $fila['id_product'] . "</td>";
-                                $mensaje .= "<td>" . $fila['product_name'] . "</td>";
-                                $mensaje .= "<td>" . $fila['price'] . " €</td>";
-                                $mensaje .= "<td>" . $fila['category_name'] . "</td>";
-                                $mensaje .= "<td>" . ($fila['in_stock'] == 0 ? 'No' : 'Si') . "</td>";
-                                $mensaje .= "<td>" . $fila['registration_date'] . "</td>";
-
-                                $mensaje .= "</td></tr>";
-
-                                echo $mensaje;
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($fila['id_product']) . "</td>";
+                                echo "<td>" . htmlspecialchars($fila['product_name']) . "</td>";
+                                echo "<td>" . htmlspecialchars($fila['price']) . " €</td>";
+                                echo "<td>" . htmlspecialchars($fila['category_name']) . "</td>";
+                                echo "<td>" . ($fila['in_stock'] == 0 ? 'No' : 'Sí') . "</td>";
+                                echo "<td>" . htmlspecialchars($fila['registration_date']) . "</td>";
+                                echo "</tr>";
                             }
 
                             ?>
