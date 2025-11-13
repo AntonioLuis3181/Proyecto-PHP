@@ -42,3 +42,7 @@ include_once("index.html");
         <button type="submit" class="btn btn-primary">Aceptar</button>
     </form>
 </div>
+
+</body>
+
+</html>

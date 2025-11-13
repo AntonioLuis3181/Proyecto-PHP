@@ -124,7 +124,7 @@ include_once("index.html");
             echo "<p><a href='altaProducto.php' class='btn btn-primary'>Añadir otro producto</a></p>";
         }
 
-        echo "<a href='admin.php' class='btn btn-primary'>Vuelta al menú de administrador</a>";
+        echo "<a href='productos.php' class='btn btn-primary'>Listado productos</a>";
         ?>
 
     </div>

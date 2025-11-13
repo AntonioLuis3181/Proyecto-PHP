@@ -16,7 +16,7 @@ echo "<form method='POST' class='mb-4'>
           <div class='col-md-4'>
             <label class='form-label fw-semibold'>Estación</label>
             <select name='id_season' class='form-select'>
-              <option value=''>-- Todas --</option>";
+              <option value=''>Todas</option>";
 
 while ($row = mysqli_fetch_assoc($resultTemp)) {
   // Mantener seleccionado el valor anterior si el usuario filtró
