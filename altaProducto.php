@@ -35,10 +35,10 @@ include_once("index.html");
                 ?>
             </select>
         </div>
-        <!-- <div class="col-md-6 mb-3">
-                <label for="imagen" class="form-label">Subir imagen del producto</label>
-                <input type="file" class="form-control" id="imagen" name="imagen" />
-            </div> -->
+        <div class="col-md-6 mb-3">
+            <label for="imagen" class="form-label">Subir imagen del producto</label>
+            <input type="file" class="form-control" id="imagen" name="imagen" />
+        </div>
         <button type="submit" class="btn btn-primary">Aceptar</button>
     </form>
 </div>

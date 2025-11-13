@@ -1,6 +1,7 @@
 <?php
 require_once("config.php");
 $conexion = obtenerConexion();
+
 include_once("index.html");
 
 echo "<div class='container mt-4'>";

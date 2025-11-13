@@ -91,3 +91,7 @@ if ($conexion) {
         <div class="alert alert-danger mt-3">Error en la consulta: <?php echo htmlspecialchars($consulta_error); ?></div>
     <?php endif; ?>
 </div>
+
+</body>
+
+</html>

@@ -74,6 +74,9 @@ include_once("index.html");
         </form>
     </div>
 </div>
+</body>
+
+</html>
 
 <?php
 if (isset($_POST['add'])) {

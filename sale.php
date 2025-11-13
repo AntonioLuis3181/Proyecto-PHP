@@ -2,6 +2,7 @@
 require_once("config.php");
 include_once("index.html");
 
+
 // Obtener conexión
 $conexion = obtenerConexion();
 if (!$conexion) {
@@ -257,3 +258,7 @@ if ($resultado_ventas) {
     </div>
 </div>
 </div>
+
+</body>
+
+</html>
