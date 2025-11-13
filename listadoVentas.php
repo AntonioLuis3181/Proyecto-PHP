@@ -1,5 +1,9 @@
 <?php
 require_once("config.php");
+<<<<<<< HEAD
+include_once("index.html");
+=======
+>>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
 
 // Recuperar listado de ventas desde la base de datos
 $listaVentas = array();
@@ -45,6 +49,25 @@ if ($conexion) {
 }
 ?>
 
+<<<<<<< HEAD
+<div class="container">
+    <h2>Listado de Ventas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Venta</th>
+                <th>Fecha</th>
+                <th>Cantidad</th>
+                <th>ID Producto</th>
+                <th>Venta Online</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($listaVentas)): ?>
+                <?php foreach ($listaVentas as $venta): ?>
+=======
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,9 +113,32 @@ if ($conexion) {
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
+>>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
                     <tr>
-                        <td colspan="7">No hay ventas registradas.</td>
+                        <td><?php echo htmlspecialchars($venta['id_sale']); ?></td>
+                        <td><?php echo htmlspecialchars($venta['sale_date']); ?></td>
+                        <td><?php echo htmlspecialchars($venta['product_quantity']); ?></td>
+                        <td><?php echo htmlspecialchars($venta['id_product']); ?></td>
+                        <td><?php echo $venta['online_sale'] ? 'Sí' : 'No'; ?></td>
+                        <td><?php echo htmlspecialchars($venta['address']); ?></td>
+                        <td>
+                            <form method="post" style="display:inline" onsubmit="return confirm('¿Estás seguro de que quieres borrar esta venta?');">
+                                <input type="hidden" name="accion" value="borrar">
+                                <input type="hidden" name="id_sale" value="<?php echo htmlspecialchars($venta['id_sale']); ?>">
+                                <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+                            </form>
+                        </td>
                     </tr>
+<<<<<<< HEAD
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7">No hay ventas registradas.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+=======
                 <?php endif; ?>
             </tbody>
         </table>
@@ -104,5 +150,9 @@ if ($conexion) {
     </div>
     <script src="js/bootstrap.min.js"></script>
 </body>
+>>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
 
-</html>
+    <?php if (isset($consulta_error) && $consulta_error): ?>
+        <div class="alert alert-danger mt-3">Error en la consulta: <?php echo htmlspecialchars($consulta_error); ?></div>
+    <?php endif; ?>
+</div>
