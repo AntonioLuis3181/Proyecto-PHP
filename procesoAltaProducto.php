@@ -3,7 +3,7 @@
 //require_once("funcionesUtiles.php");
 //comprobarSesionAdmin();
 require_once("config.php");
-include_once("index.php");
+include_once("index.html");
 ?>
 
 <!DOCTYPE html>

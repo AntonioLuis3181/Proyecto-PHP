@@ -2,8 +2,6 @@
 require_once("config.php");
 $conexion = obtenerConexion();
 
-include_once("index.php");
-
 include_once("index.html");
 
 
