@@ -1,11 +1,11 @@
 <?php
 require_once("config.php");
 $conexion = obtenerConexion();
-<<<<<<< HEAD
+
 include_once("index.php");
-=======
+
 include_once("index.html");
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
+
 
 echo "<div class='container mt-4'>";
 echo "<h2 class='text-center'>Editar Categoría</h2>";
@@ -77,18 +77,9 @@ elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['categoria'])) {
           </a>";
 
     echo "</form>";
-<<<<<<< HEAD
 } else {
-=======
-}
-else {
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
     echo "<div class='alert alert-warning text-center'>No se ha seleccionado ninguna categoría para editar.</div>";
 }
 
 echo "</div>";
 mysqli_close($conexion);
-<<<<<<< HEAD
-=======
-?>
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2

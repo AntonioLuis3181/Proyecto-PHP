@@ -2,13 +2,8 @@
 //session_start();
 //require_once("funcionesUtiles.php");
 //comprobarSesionAdmin();
-<<<<<<< HEAD
 require_once("config.php");
 include_once("index.php");
-=======
-
-require_once("config.php");
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
 ?>
 
 <!DOCTYPE html>

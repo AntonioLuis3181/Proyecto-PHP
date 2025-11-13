@@ -45,7 +45,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 echo "</div>";
 mysqli_close($conexion);
-<<<<<<< HEAD
-=======
-?>
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2

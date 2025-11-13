@@ -86,11 +86,7 @@ if (isset($_POST['add'])) {
     $sql = "INSERT INTO category (category_name, description, creation_date, like_count,seasonal_product_available, id_season)
             VALUES ('$name','$desc',NOW(),'$likes','$seasonal','$season')";
 
-<<<<<<< HEAD
     if (mysqli_query($conexion, $sql)) {
-=======
-            if (mysqli_query($conexion, $sql)) {
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
         echo "<div class='alert alert-success'>Categoría agregada correctamente</div>";
     } else {
         echo "<div class='alert alert-danger'>Error: " . mysqli_error($conexion) . "</div>";

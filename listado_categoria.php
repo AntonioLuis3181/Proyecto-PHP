@@ -1,11 +1,7 @@
 <?php
 require_once("config.php");
 $conexion = obtenerConexion();
-<<<<<<< HEAD
 $sql = "SELECT c.*, s.season_name 
-=======
-    $sql = "SELECT c.*, s.season_name 
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
             FROM category c 
             JOIN season s ON c.id_season = s.id_season
             ORDER BY c.id_category ASC";
@@ -68,7 +64,3 @@ echo "</div>";
 
 
 mysqli_close($conexion);
-<<<<<<< HEAD
-=======
-?>
->>>>>>> 95c8ba80e8790a709dc4e59c2fc29bf5be4acbc2
