@@ -5,10 +5,10 @@ function obtenerConexion()
     mysqli_report(MYSQLI_REPORT_OFF);
 
     // Valores por defecto - puedes sobrescribirlos con variables de entorno
-    $host = getenv('DB_HOST') ?: 'db';  // 'db' para Docker, '127.0.0.1' para conexión local
-    $user = getenv('DB_USER') ?: 'prueba';
-    $pass = getenv('DB_PASS') ?: 'prueba';
-    $dbname = getenv('DB_NAME') ?: 'nova_vibe';
+    $host = getenv('DB_HOST') ?: 'sql113.infinityfree.com';  // 'db' para Docker, '127.0.0.1' para conexión local
+    $user = getenv('DB_USER') ?: 'if0_40411080';
+    $pass = getenv('DB_PASS') ?: 'BA0SaauAKm2u2';
+    $dbname = getenv('DB_NAME') ?: 'if0_40411080_nova_vibe';
     $port = getenv('DB_PORT') ?: 3306;
 
     // Crear conexión
