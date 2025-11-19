@@ -5,10 +5,10 @@
 - Hosting: http://proycetphp.great-site.net
 
 ## Datos de conexión a la BD
-- Host: localhost
-- Base de datos: nova_vibe
-- Usuario: root
-- Password: test
+- Host: sql113.infinityfree.com
+- Base de datos: if0_40411080_nova_vibe
+- Usuario: if0_40411080
+- Password: BA0SaauAKm2u2
 
 ## Notas
 - La base de datos incluye las tablas: categorias, temporada, productos, ventas.
