@@ -14,4 +14,5 @@
 - La base de datos incluye las tablas: categorias, temporada, productos, ventas.
 - Los formularios y tablas están implementados con Bootstrap.
 - La tabla Ventas la realizó Antonio Luis Vela Garcia
-- La talba de cateogrias y la complementaria de temporada la realizó Jesús Valdivia
+- La tabla de categorias y la complementaria de temporada la realizó Jesús Valdivia
+- La tabla de productos la realizó Victor
