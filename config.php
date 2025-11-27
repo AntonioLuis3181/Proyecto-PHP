@@ -23,15 +23,4 @@ function obtenerConexion()
     $conexion->set_charset('utf8');
     return $conexion;
 }
-function obtenerArrayOpciones($tabla, $guarda, $muestra)
-{
-	global $conexion;
-	$arrayCombo = array();
-	$sql = "SELECT $guarda,$muestra FROM $tabla order by $muestra";
-	$resultado = mysqli_query($conexion, $sql);
-	while ($row = mysqli_fetch_assoc($resultado)) {
-		$indice = $row[$guarda];
-		$arrayCombo[$indice] = $row[$muestra];
-	}
-	return $arrayCombo;
-}
+?>

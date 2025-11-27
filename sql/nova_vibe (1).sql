@@ -35,8 +35,6 @@ CREATE DATABASE IF NOT EXISTS nova_vibe CHARACTER SET utf8mb4 COLLATE utf8mb4_ge
 
 USE nova_vibe;
 
-CREATE USER 'prueba'@'%' IDENTIFIED WITH mysql_native_password BY 'prueba';GRANT ALL PRIVILEGES ON *.* TO 'prueba'@'%' WITH GRANT OPTION
-
 CREATE TABLE `category` (
     `id_category` int NOT NULL,
     `category_name` varchar(100) NOT NULL,
@@ -303,4 +301,3 @@ ALTER TABLE `sale`
 ADD CONSTRAINT `sale_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 COMMIT;
-

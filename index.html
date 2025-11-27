@@ -57,8 +57,8 @@
             Ventas
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="sale.php">Gestion de Ventas</a></li>
-            <li><a class="dropdown-item" href="listadoVentas.php">Listado de Ventas</a></li>
+            <li><a class="dropdown-item" href="#" id="mnuAltaVenta">Gestion de Ventas</a></li>
+            <li><a class="dropdown-item" href="#" id="mnuListadoGeneral">Listado de Ventas</a></li>
           </ul>
 
         </li>
@@ -66,3 +66,57 @@
       </div>
     </div>
   </nav>
+  <form id="frmAltaVenta" class="d-none needs-validation">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">Crear Nueva Venta (Sale)</h2>
+    </div>
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="txtSaleDate" class="form-label">Fecha y Hora:</label>
+          <input type="datetime-local" id="txtSaleDate" class="form-control" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="txtProductQuantity" class="form-label">Cantidad:</label>
+          <input type="number" id="txtProductQuantity" class="form-control" min="1" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="lstIdProduct" class="form-label">Producto:</label>
+          <select id="lstIdProduct" class="form-select" required>
+            <option value="">Seleccionar producto...</option>
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="txtAddress" class="form-label">Dirección:</label>
+          <input type="text" id="txtAddress" class="form-control" placeholder="Ej: Calle Falsa, 123">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="form-check">
+          <input type="checkbox" id="chkOnlineSale" value="1" class="form-check-input">
+          <label class="form-check-label" for="chkOnlineSale">
+            ¿Es una venta online?
+          </label>
+        </div>
+      </div>
+
+      <button type="button" id="btnAceptarAltaVenta" class="btn btn-success">
+        Guardar Venta
+      </button>
+    </div>
+  </form>
+  <div id="listados" class="mt-4">
+  </div>
+
+  <div id="resultadoBusqueda" class="mt-4">
+  </div>
+  <script type="text/javascript" src="js/ajax.js"></script>
+  <script type="text/javascript" src="js/objetos.js"></script>
+  <script type="text/javascript" src="js/codigo.js"></script>
